@@ -617,3 +617,59 @@ void __cpu_die(unsigned int cpu)
 		smp_ops->cpu_die(cpu);
 }
 #endif
+
+unsigned long arch_scale_smt_power(struct sched_domain *sd, int cpu)
+{
+	int sibling;
+	int idle_count = 0;
+	int thread;
+
+	/* Setup the default weight and smt_gain used by most cpus for SMT
+	 * Power. Doing this right away covers the default case and can be
+	 * used by cpus that modify it dynamically.
+	 */
+	struct cpumask *sibling_map = sched_domain_span(sd);
+	unsigned long weight = cpumask_weight(sibling_map);
+	unsigned long smt_gain = sd->smt_gain;
+
+
+	if (cpu_has_feature(CPU_FTR_ASYNC_SMT4) && weight == 4) {
+		for_each_cpu(sibling, sibling_map) {
+		if (idle_cpu(sibling))
+			idle_count++;
+		}
+
+		/* the following section attempts to tweak cpu power based
+		 * on current idleness of the threads dynamically at runtime
+		 */
+		if (idle_count > 1) {
+			thread = cpu_thread_in_core(cpu);
+			if (thread < 2) {
+				/* add 75 % to thread power */
+				smt_gain += (smt_gain >> 1) + (smt_gain >> 2);
+			} else {
+				/* subtract 75 % to thread power */
+				smt_gain = smt_gain >> 2;
+			}
+		}
+	}
+
+	/* default smt gain is 1178, weight is # of SMT threads */
+	switch (weight) {
+		case 1:
+			/*divide by 1, do nothing*/
+			break;
+		case 2:
+			smt_gain = smt_gain >> 1;
+			break;
+		case 4:
+			smt_gain = smt_gain >> 2;
+			break;
+		default:
+			smt_gain /= weight;
+			break;
+	}
+
+	return smt_gain;
+
+}
