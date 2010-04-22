@@ -244,6 +244,16 @@ config DM_CRYPT
 
 	  If unsure, say N.
 
+config DM_CRYPT_GLOBAL_WORKQUEUES
+	boolean "Use global instead of per-device work-queues"
+	depends on DM_CRYPT
+	---help---
+	  Normally 2 kernel work-queue threads are created for every
+	  dm-crypt target. This option creates only 1 set of work-queues
+	  on init, and re-uses them.
+
+	  If unsure, say N.
+
 config DM_SNAPSHOT
        tristate "Snapshot target"
        depends on BLK_DEV_DM
