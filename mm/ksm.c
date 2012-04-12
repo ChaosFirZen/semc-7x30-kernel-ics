@@ -167,10 +167,10 @@ static unsigned long ksm_rmap_items;
 static unsigned long ksm_max_kernel_pages;
 
 /* Number of pages ksmd should scan in one batch */
-static unsigned int ksm_thread_pages_to_scan = 100;
+static unsigned int ksm_thread_pages_to_scan = 128;
 
 /* Milliseconds ksmd should sleep between batches */
-static unsigned int ksm_thread_sleep_millisecs = 20;
+static unsigned int ksm_thread_sleep_millisecs = 850;
 
 #define KSM_RUN_STOP	0
 #define KSM_RUN_MERGE	1
