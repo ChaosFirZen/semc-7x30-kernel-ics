@@ -752,7 +752,17 @@ static ssize_t show_pump_up_step(struct kobject *kobj,
 static ssize_t store_pump_up_step(struct kobject *kobj,
 			struct attribute *attr, const char *buf, size_t count)
 {
-	return strict_strtoul(buf, 0, &pump_up_step);
+	ssize_t ret;
+	struct cpufreq_lulzactive_cpuinfo *pcpu;
+
+	ret = strict_strtoul(buf, 0, &pump_up_step);
+
+	pcpu = &per_cpu(cpuinfo, 0);
+	// fix out of bound
+	if (pcpu->freq_table_size <= pump_up_step) {
+		pump_up_step = pcpu->freq_table_size - 1;
+	}
+	return ret;
 }
 
 static struct global_attr pump_up_step_attr = __ATTR(pump_up_step, 0666,
