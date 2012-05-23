@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../include/generated/autoconf.h"
+#include "../include/linux/autoconf.h"
 #include "crc32defs.h"
 #include <inttypes.h>
 
@@ -72,7 +72,7 @@ static void crc32init_be(void)
 	unsigned i, j;
 	uint32_t crc = 0x80000000;
 
-	crc32table_be[0] = 0;
+	crc32table_be[0][0] = 0;
 
 	for (i = 1; i < BE_TABLE_SIZE; i <<= 1) {
 		crc = (crc << 1) ^ ((crc & 0x80000000) ? CRCPOLY_BE : 0);
@@ -90,7 +90,7 @@ static void crc32init_be(void)
 
 static void output_table(uint32_t (*table)[256], int rows, int len, char *trans)
 {
-	int i;
+	int i, j;
 
 	for (j = 0 ; j < rows; j++) {
 		printf("{");
@@ -101,7 +101,6 @@ static void output_table(uint32_t (*table)[256], int rows, int len, char *trans)
 		}
 		printf("%s(0x%8.8xL)},\n", trans, table[j][len - 1]);
 	}
-	printf("%s(0x%8.8xL)\n", trans, table[len - 1]);
 }
 
 int main(int argc, char** argv)
