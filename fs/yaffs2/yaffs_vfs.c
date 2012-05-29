@@ -35,7 +35,6 @@
  * There are two variants of the VFS glue code. This variant should compile
  * for any version of Linux.
  */
-#include <linux/cleancache.h>
 #include <linux/version.h>
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 10))
