@@ -20,7 +20,7 @@
 #include <linux/slab.h>
 #include <linux/time.h>
 #include <linux/sched.h>
-#include <mach/socinfo.h>
+#include "../../../arch/arm/mach-msm/socinfo.h"
 
 #include "kgsl.h"
 #include "kgsl_cffdump.h"
@@ -146,7 +146,7 @@ static void b64_encode(const unsigned char *in_buf, int in_size,
 		if (len) {
 			b64_encodeblock(in, out, len);
 			if (out_bufsize < 4) {
-				pr_warn("kgsl: cffdump: %s: out of buffer\n",
+				pr_warning("kgsl: cffdump: %s: out of buffer\n",
 					__func__);
 				return;
 			}
@@ -190,7 +190,7 @@ static void cffdump_membuf(int id, unsigned char *out_buf, int out_bufsize)
 		- sizeof(uint)*cff_op_write_membuf.count;
 
 	if (!cff_op_write_membuf.count) {
-		pr_warn("kgsl: cffdump: membuf: count == 0, skipping");
+		pr_warning("kgsl: cffdump: membuf: count == 0, skipping");
 		return;
 	}
 
@@ -307,7 +307,7 @@ static void cffdump_printline(int id, uint opcode, uint op1, uint op2,
 		out_buf[out_size] = 0;
 		klog_printk("%ld:%d;%s\n", ++serial_nr, id, out_buf);
 	} else
-		pr_warn("kgsl: cffdump: unhandled opcode: %d\n", opcode);
+		pr_warning("kgsl: cffdump: unhandled opcode: %d\n", opcode);
 
 	cur_secs = get_seconds();
 	if ((cur_secs - last_sec) > 10 || (last_sec - cur_secs) > 10) {
@@ -614,7 +614,7 @@ bool kgsl_cffdump_parse_ibs(struct kgsl_device_private *dev_priv,
 				hostaddr, check_only);
 			break;
 		default:
-			pr_warn("kgsl: cffdump: parse-ib: unexpected type: "
+			pr_warning("kgsl: cffdump: parse-ib: unexpected type: "
 				"type:%d, word:0x%08x @ 0x%p, gpu:0x%08x\n",
 				*hostaddr >> 30, *hostaddr, hostaddr,
 				gpuaddr+4*(sizedwords-dwords_left));
@@ -691,14 +691,14 @@ static int subbuf_start_handler(struct rchan_buf *buf,
 	if (relay_buf_full(buf)) {
 		if (!suspended) {
 			suspended = 1;
-			pr_warn("kgsl: cffdump: relay: cpu %d buffer full!!!\n",
+			pr_warning("kgsl: cffdump: relay: cpu %d buffer full!!!\n",
 				smp_processor_id());
 		}
 		dropped++;
 		return 0;
 	} else if (suspended) {
 		suspended = 0;
-		pr_warn("kgsl: cffdump: relay: cpu %d buffer no longer full.\n",
+		pr_warning("kgsl: cffdump: relay: cpu %d buffer no longer full.\n",
 			smp_processor_id());
 	}
 
