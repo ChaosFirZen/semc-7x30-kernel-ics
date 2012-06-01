@@ -144,13 +144,6 @@ config CPU_FREQ_DEFAULT_GOV_SMARTASS2
 	  governor. If unsure have a look at the help section of the
 	  driver. Fallback governor will be the performance governor.
 
-config CPU_FREQ_DEFAULT_GOV_WHEATLEY
-	bool "wheatley"
-	select CPU_FREQ_GOV_WHEATLEY
-	select CPU_FREQ_GOV_PERFORMANCE
-	help
-	  Use the CPUFreq governor 'wheatley' as default.
-
 endchoice
 
 config CPU_FREQ_GOV_PERFORMANCE
@@ -252,10 +245,6 @@ config CPU_FREQ_GOV_SMARTASS2
 	  'smartass2' - a "smart" optimized governor for the hero!
 
 	  If in doubt, say N.
-
-config CPU_FREQ_GOV_WHEATLEY
-	tristate "'wheatley' cpufreq governor"
-	depends on CPU_FREQ
 
 config CPU_FREQ_VDD_LEVELS
 	bool "CPU Vdd levels sysfs interface"
