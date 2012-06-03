@@ -99,7 +99,7 @@
 #define TP_SHIFT_FNGR_STAT_MS	4
 #define TP_SHIFT_FNGR_STAT_LS	0
 
-#define TP_TOUCH_CNT_MAX	4
+#define TP_TOUCH_CNT_MAX	5
 
 #define TP_TRACK_ACTIVE		1
 #define TP_TRACK_DELETE		2
