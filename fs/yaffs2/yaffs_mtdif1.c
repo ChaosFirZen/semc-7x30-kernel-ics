@@ -36,11 +36,6 @@
 #include "linux/types.h"
 #include "linux/mtd/mtd.h"
 
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 2, 0))
-#define MTD_OPS_AUTO_OOB MTD_OOB_AUTO
-#endif
-
-
 /* Don't compile this module if we don't have MTD's mtd_oob_ops interface */
 #if (MTD_VERSION_CODE > MTD_VERSION(2, 6, 17))
 
@@ -129,7 +124,7 @@ int nandmtd1_write_chunk_tags(struct yaffs_dev *dev,
 	}
 
 	memset(&ops, 0, sizeof(ops));
-	ops.mode = MTD_OPS_AUTO_OOB;
+	ops.mode = MTD_OOB_AUTO;
 	ops.len = (data) ? chunk_bytes : 0;
 	ops.ooblen = dev->param.tags_9bytes ? 9 : 8;
 	ops.datbuf = (u8 *) data;
@@ -182,7 +177,7 @@ int nandmtd1_read_chunk_tags(struct yaffs_dev *dev,
 	int deleted;
 
 	memset(&ops, 0, sizeof(ops));
-	ops.mode = MTD_OPS_AUTO_OOB;
+	ops.mode = MTD_OOB_AUTO;
 	ops.len = (data) ? chunk_bytes : 0;
 	ops.ooblen = dev->param.tags_9bytes ? 9 : 8;
 	ops.datbuf = data;
