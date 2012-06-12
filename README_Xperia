@@ -11,3 +11,6 @@ Xperia ray => semc_urushi_defconfig
 Xperia mini => semc_smultron_defconfig
 Xperia arc s => semc_ayame_defconfig
 Xperia neo v => semc_haida_defconfig
+Xperia active => semc_satsuma_defconfig
+Live with Walkman => semc_coconut_defconfig
+Xperia neo L => semc_phoenix_defconfig

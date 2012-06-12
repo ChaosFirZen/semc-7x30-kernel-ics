@@ -1812,7 +1812,7 @@ static int msmsdcc_pm_suspend(struct device *dev)
 	if (mmc) {
 		struct msmsdcc_host *host = mmc_priv(mmc);
 
-#if defined(CONFIG_MACH_SEMC_ZEUS)
+#if defined(CONFIG_MACH_SEMC_ZEUS) || defined(CONFIG_MACH_SEMC_PHOENIX)
 		if (mmc->card && mmc->card->type != MMC_TYPE_SDIO)
 #else
 		if (!(mmc->pm_flags & MMC_PM_KEEP_POWER))
@@ -1854,7 +1854,7 @@ static int msmsdcc_pm_resume(struct device *dev)
 
 		spin_unlock_irqrestore(&host->lock, flags);
 
-#if defined(CONFIG_MACH_SEMC_ZEUS)
+#if defined(CONFIG_MACH_SEMC_ZEUS) || defined(CONFIG_MACH_SEMC_PHOENIX)
 		if (mmc->card && mmc->card->type != MMC_TYPE_SDIO)
 #else
 		if (!(mmc->pm_flags & MMC_PM_KEEP_POWER))
