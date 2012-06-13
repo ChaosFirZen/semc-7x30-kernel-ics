@@ -1949,7 +1949,7 @@ CONFIG_USB_EHCI_MSM=y
 #
 # also be needed; see USB_STORAGE Help for more info
 #
-# CONFIG_USB_STORAGE is not set
+CONFIG_USB_STORAGE=y
 # CONFIG_USB_LIBUSUAL is not set
 
 #
