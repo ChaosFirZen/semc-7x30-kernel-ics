@@ -707,12 +707,20 @@ choice
 config CC_OPTIMIZE_FOR_SIZE
 	bool "Use -Os"
 	default y
+	help
+	  Enabling this option will pass "-Os" instead of "-O2" to gcc
+	  resulting in a smaller kernel.
 
 config CC_OPTIMIZE_DEFAULT
 	bool "Use -O2"
+	help
+	  Default choice.
 
 config CC_OPTIMIZE_ALOT
 	bool "Use -O3"
+	help
+	  Enabling this option will pass "-O3" instead of "-O2" to gcc
+	  resulting in an even smaller kernel than "-Os".
 
 endchoice
 
